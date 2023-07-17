@@ -1,13 +1,21 @@
-pipeline {
-	agent { none }
-	stages {
-		stage('Testing'){
+pipeline{
+	agent {
+		docker {
+			image 'ubuntu:latest'
+		}	
+	}
+	options{
+		newContainerPerStage()
+	}
+	stages{
+		stage('Build'){
 			steps {
-				sh '''
-					node --version
-					git --version
-					curl --version				
-				'''
+				sh 'df -hk'
+			}
+		}
+		stage('Deploy'){
+			steps {
+				sh 'cat /etc/lsb-release'
 			}
 		}
 	}
